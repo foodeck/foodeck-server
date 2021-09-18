@@ -4,7 +4,7 @@ var axios = require('axios');
 
 const SPOONKEY = process.env.spoon;
 /* GET Recpie from API */
-router.get('/', async (req, res) => {
+router.post('/', async (req, res) => {
     var ingstr = '';
     if (Object.keys(req.body).length > 1 || ingstr != ''){
         for (let i = 0; i < Object.keys(req.body).length; i++) {
