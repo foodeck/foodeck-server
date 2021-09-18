@@ -1,5 +1,5 @@
 let imageToLabels = async function (req, client, foodlist){
-    var final_res = {};
+    var final_res = [];
     for (var i = 0; i < req.files.length; i++) {
         const [result] = await client.labelDetection(req.files[i].buffer);
         var label_final = [];
@@ -11,10 +11,10 @@ let imageToLabels = async function (req, client, foodlist){
                 label_final.push(temp);
             }
         }
-        final_res[i]=label_final;
+        final_res.push(label_final);
     }
-    // var return_res = { "result": final_res };
-    return (final_res);
+    var return_res = { "result": final_res };
+    return (return_res);
 }
 
 exports.imageToLabels = imageToLabels;
