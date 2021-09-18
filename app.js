@@ -9,6 +9,7 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var spoonRouter = require('./routes/spoon');
 
 var app = express();
 
@@ -29,6 +30,7 @@ var app = express();
   },
   logging: false, 
 });
+
 const People = sequelize.define("people", {
   id: {
       type: Sequelize.INTEGER,
@@ -55,6 +57,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/spoon', spoonRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
