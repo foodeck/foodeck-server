@@ -2,15 +2,26 @@ var express = require('express');
 var router = express.Router();
 var axios = require('axios');
 
-const SPOONKEY = "19daf48d06484bc3900df91a98bac126";
-const ingstr = 'trash';
-const APIcall = `https://api.spoonacular.com/recipes/findByIngredients?ingredients=${ingstr}&number=10&ranking=2&apiKey=${SPOONKEY}`;
-
+const SPOONKEY = process.env.spoon;
 /* GET Recpie from API */
 router.get('/', async (req, res) => {
-    /*for (let i = 0; i < 'numrows of db'; i++) {
-        ingstr = ingstr + 'database ingredient string' //builds the string from the cockdb when its implemented
-    } */
+    var ingstr = '';
+    if (Object.keys(req.body).length > 1 || ingstr != ''){
+        for (let i = 0; i < Object.keys(req.body).length; i++) {
+            if (ingstr == ''){
+                ingstr = ingstr + req.body[i];
+            }
+            else{
+            ingstr = ingstr + ',' + req.body[i];
+            console.log(ingstr);
+            }
+        } 
+    }
+    else if ((Object.keys(req.body).length == 1)){
+        ingstr = req.body[0];
+        console.log(ingstr);
+    }
+    const APIcall = `https://api.spoonacular.com/recipes/findByIngredients?ingredients=${ingstr}&number=10&ranking=2&apiKey=${SPOONKEY}`;
     try {
         const ingredientSearchResult = await axios({
             method: 'get',
