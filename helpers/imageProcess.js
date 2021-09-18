@@ -7,7 +7,7 @@ let imageToLabels = async function (req, client, foodlist){
             const labels = result.labelAnnotations[j].description.toLowerCase();;
             const score = result.labelAnnotations[j].score;
             const temp = { 'description': labels, 'score': score };
-            if (labels in foodlist){
+            if (labels in foodlist || labels+'s' in foodlist || labels+'es' in foodlist){
                 label_final.push(temp);
             }
         }
