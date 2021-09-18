@@ -4,10 +4,45 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+// const Sequelize = require("sequelize-cockroachdb");
+// const fs = require('fs');
+
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
 var app = express();
+
+/* var sequelize = new Sequelize({
+  dialect: "postgres",
+  username: "USERNAME",
+  password: "PASSWORD",
+  host: "HOST",
+  port: PORT,
+  database: "DATABASE",
+  dialectOptions: {
+    ssl: {
+      
+      //For secure connection:
+      ca: fs.readFileSync('YOURPATH/cc-ca.crt')
+              .toString()
+    },
+  },
+  logging: false, 
+});
+
+const People = sequelize.define("people", {
+  id: {
+      type: Sequelize.INTEGER,
+      autoIncrement: true, 
+      primaryKey: true,
+  },
+  name: {
+      type: Sequelize.TEXT,
+  },
+  phoneNumber: {
+      type: Sequelize.INTEGER,
+  },
+}); */
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
