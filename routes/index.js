@@ -6,9 +6,17 @@ const imageProcess = require('../helpers/imageProcess.js');
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 const foodlist = require('../inglist/Spooning.json');
+const cEmail = process.env.client_email;
+const pKey = process.env.private_key.replace(/\\n/gm, '\n');
+const pId = process.env.project_id;
+const credentials = {
+  "client_email": cEmail,
+  "private_key": pKey
+}
 
 const client = new vision.ImageAnnotatorClient({
-  keyFilename: './apik.json'
+  "credentials": credentials,
+  "project_id": pId
 });
 
 /* GET home page. */
