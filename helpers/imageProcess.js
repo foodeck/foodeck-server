@@ -11,7 +11,7 @@ let imageToLabels = async function (req, client, foodlist){
                 label_final.push(temp);
             }
         }
-        final_res = final_res.concat(label_final);
+        final_res.push(label_final);
     }
     var return_res = { "result": final_res };
     return (return_res);
