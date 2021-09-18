@@ -21,7 +21,7 @@ const client = new vision.ImageAnnotatorClient({
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-  res.render('index', { title: 'Express' });
+  res.redirect('https://github.com/foodeck');
 });
 
 // Allow upload of images
