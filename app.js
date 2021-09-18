@@ -29,7 +29,6 @@ var app = express();
   },
   logging: false, 
 });
-
 const People = sequelize.define("people", {
   id: {
       type: Sequelize.INTEGER,

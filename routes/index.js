@@ -1,40 +1,22 @@
 var express = require('express');
 var router = express.Router();
 const multer = require('multer');
-var upload = multer({ dest: 'storage/' })
-const { path } = require('../app');
+const vision = require('@google-cloud/vision');
 
-// var storage = multer.diskStorage({
-//   destination: './storage/',
-//   filename: function (req, file, cb) {
-//     cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
-//   }
-// })
+const client = new vision.ImageAnnotatorClient({
+  keyFilename: './apik.json'
+});
 
-// const upload = multer({
-//   storage: storage
-// }).single();
 /* GET home page. */
 router.get('/', function (req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
-// router.post('/upload', function (req, res) {
-//   upload(req, res, (err) => {
-//     if (err) {
-//       res.render('index', {
-//         msg: err
-//       });
-//     } else {
-//       console.log(req.file);
-//       res.send('test');
-//     }
-//   });
-// });
-
-router.post('/ay', upload.array('file', 12), function (req, res, next) {
-  console.log(req.files)
-  res.send("done");
+const storage = multer.memoryStorage()
+const upload = multer({ storage: storage })
+router.post('/upload', upload.single('file'), async function (req, res) {
+  const [result] = await client.labelDetection(req.file.buffer);
+  res.send(result);
 });
 
 module.exports = router;
