@@ -9,12 +9,12 @@ var cors = require('cors');
 // const Sequelize = require("sequelize-cockroachdb");
 // const fs = require('fs');
 
+var app = express();
+app.use(cors());
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var spoonRouter = require('./routes/spoon');
 
-var app = express();
-app.use(cors());
 /* var sequelize = new Sequelize({
   dialect: "postgres",
   username: "USERNAME",
