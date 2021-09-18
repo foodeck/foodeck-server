@@ -4,7 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 require('dotenv').config();
-
+var cors = require('cors');
 
 // const Sequelize = require("sequelize-cockroachdb");
 // const fs = require('fs');
@@ -14,7 +14,7 @@ var usersRouter = require('./routes/users');
 var spoonRouter = require('./routes/spoon');
 
 var app = express();
-
+app.use(cors());
 /* var sequelize = new Sequelize({
   dialect: "postgres",
   username: "USERNAME",
