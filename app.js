@@ -6,7 +6,7 @@ var logger = require('morgan');
 require('dotenv').config();
 var cors = require('cors');
 
-// const Sequelize = require("sequelize-cockroachdb");
+const Sequelize = require("sequelize-cockroachdb");
 // const fs = require('fs');
 
 var app = express();
@@ -15,37 +15,32 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var spoonRouter = require('./routes/spoon');
 
-/* var sequelize = new Sequelize({
+var sequelize = new Sequelize({
   dialect: "postgres",
-  username: "USERNAME",
-  password: "PASSWORD",
-  host: "HOST",
-  port: PORT,
-  database: "DATABASE",
+  username: "foodeck",
+  password: "foodeckHTN2021$",
+  host: "free-tier.gcp-us-central1.cockroachlabs.cloud",
+  port: 26257,
+  database: "smug-rabbit-3556.defaultdb",
   dialectOptions: {
     ssl: {
-      
-      //For secure connection:
-      ca: fs.readFileSync('YOURPATH/cc-ca.crt')
-              .toString()
+      rejectUnauthorized: false,
     },
   },
   logging: false, 
 });
 
-const People = sequelize.define("people", {
-  id: {
-      type: Sequelize.INTEGER,
-      autoIncrement: true, 
-      primaryKey: true,
+const Regional = sequelize.define("regions", {
+  region: {
+    type: Sequelize.STRING,
+    primaryKey: true,
   },
-  name: {
-      type: Sequelize.TEXT,
+  recipe: {
+    type: Sequelize.STRING,
   },
-  phoneNumber: {
-      type: Sequelize.INTEGER,
-  },
-}); */
+});
+
+global.Regional = Regional;
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
