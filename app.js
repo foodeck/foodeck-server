@@ -4,13 +4,13 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 require('dotenv').config();
-var cors = require('cors');
+//var cors = require('cors');
 
 const Sequelize = require("sequelize-cockroachdb");
 // const fs = require('fs');
 
 var app = express();
-app.use(cors());
+//app.use(cors());
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var spoonRouter = require('./routes/spoon');
@@ -18,7 +18,7 @@ var spoonRouter = require('./routes/spoon');
 var sequelize = new Sequelize({
   dialect: "postgres",
   username: "foodeck",
-  password: "foodeckHTN2021$",
+  password: process.env.cdb,
   host: "free-tier.gcp-us-central1.cockroachlabs.cloud",
   port: 26257,
   database: "smug-rabbit-3556.defaultdb",
@@ -33,7 +33,6 @@ var sequelize = new Sequelize({
 const Regional = sequelize.define("regions", {
   region: {
     type: Sequelize.STRING,
-    primaryKey: true,
   },
   recipe: {
     type: Sequelize.STRING,

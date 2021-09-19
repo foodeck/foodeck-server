@@ -5,11 +5,10 @@ var axios = require('axios');
 const SPOONKEY = process.env.spoon;
 /* GET Recpie from API */
 
-router.post('/', async (req, res) => {
-
+router.post('/', (req, res) => {
     var ingstr = '';
     if (Object.keys(req.body[1]).length > 1 || ingstr != '') {
-        for (let i = 0; i < Object.keys(req.body).length; i++) {
+        for (let i = 0; i < Object.keys(req.body[1]).length; i++) {
             if (ingstr == '') {
                 ingstr = ingstr + req.body[1][i];
             }
@@ -22,42 +21,38 @@ router.post('/', async (req, res) => {
         ingstr = req.body[1][0];
     }
     const APIcall = `https://api.spoonacular.com/recipes/findByIngredients?ingredients=${ingstr}&number=10&ranking=2&apiKey=${SPOONKEY}`;
-    try {
-        const ingredientSearchResult = await axios({
-            method: 'get',
-            url: APIcall
-        });
+    axios({
+        method: 'get',
+        url: APIcall
+    }).then(function (ingredientSearchResult) {
         var recipeArray = ingredientSearchResult.data.map(info => {
             return [info.title, info.image];
         });
-    } catch (err) {
-        console.log("error connecting with spoon", err);
-    }
-    res.send(recipeArray); //returns the json of the recipies based on least missing ingredients
+        res.send(recipeArray);
+    })
     Regional.sync({
-        force: true,
+        force: false,
     })
         .then(function () {
-            for (let i = 0; i < recipeArray.length; i++) {
-                return Regional.bulkCreate([
+            for (let i = 0; i < Object.keys(req.body[1]).length; i++) {
+                Regional.bulkCreate([
                     {
                         region: req.body[0],
-                        recipe: recipeArray[i][0],
+                        recipe: req.body[1][i],
                     },
                 ])
             }
-        });
-        /*
+        })
         .then(function () {
-            // Retrieve accounts.
             return Regional.findAll();
         })
         .then(function (regions) {
-            // Print out the balances.
-            regions.forEach(function (region) {
-                console.log(region.recipe + " " + region.region);
+            regions.forEach(function (reg) {
+                console.log(reg.recipe + " " + reg.region);
             });
-        });*/
+        })
+        .catch(function (err) {
+            console.log(JSON.stringify(err));
+        });
 });
-
 module.exports = router;
